@@ -1,5 +1,4 @@
 ```mermaid
-
 sequenceDiagram
     participant browser as Browser
     participant server as Server
@@ -15,6 +14,5 @@ sequenceDiagram
     Note left of server: Server processes the note data and stores it without redirecting the page.
 
     Note right of browser: JavaScript updates the note list on the page without reloading
-
 
 ```
