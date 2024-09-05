@@ -28,7 +28,6 @@ const App = () => {
     const numberExists = persons.some(person => person.number === newNumber);
 
     if (personExists) {
-      console.log('person',persons )
       alert(`${newName} is already added to the phonebook.`);
     } else if (numberExists) {
       alert(`${newNumber} is already used in the phonebook.`);
