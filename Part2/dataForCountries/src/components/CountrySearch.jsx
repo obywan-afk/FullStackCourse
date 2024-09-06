@@ -38,7 +38,7 @@ const CountrySearch = () => {
 
   const renderCountries = () => {
     if (search === '') {
-      return null; // Don't show anything if the search is empty
+      return null; 
     } else if (filteredCountries.length > 10) {
       return <p>Too many matches, specify another filter</p>;
     } else if (filteredCountries.length > 1) {
@@ -58,7 +58,7 @@ const CountrySearch = () => {
       return <p>No matches found</p>;
     }
   };
-  
+
   return (
     <div>
       <h1>Country Search</h1>
