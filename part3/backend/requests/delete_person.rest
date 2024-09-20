@@ -1,0 +1,12 @@
+DELETE https://backend-holy-forest-4295.fly.dev/api/persons/71889
+
+
+
+
+# DELETE http://localhost:3001/api/persons/15453
+
+
+
+
+
+

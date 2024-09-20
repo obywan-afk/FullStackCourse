@@ -1,0 +1,21 @@
+
+POST https://backend-holy-forest-4295.fly.dev/api/persons
+Content-Type: application/json
+
+{
+  "name": "Bibi Rarentsen",
+  "number": "12-45670989"
+}
+
+
+
+
+# POST http://localhost:3001/api/persons
+# Content-Type: application/json
+
+# {
+#   "name": "Sterre Rarentsen",
+#   "number": "123-456789"
+# }
+
+

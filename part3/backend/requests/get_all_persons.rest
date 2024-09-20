@@ -1,0 +1,6 @@
+GET https://backend-holy-forest-4295.fly.dev/api/persons
+
+
+
+# GET http://localhost:3001/api/persons/
+

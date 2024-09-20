@@ -1,0 +1,12 @@
+PUT https://backend-holy-forest-4295.fly.dev/api/persons/3
+Content-Type: application/json
+
+{
+    "id": 3,
+    "name": "Dan test3",
+    "number": "39-23-6423122"
+}
+
+
+
+# http://localhost:3001/api/persons/2
