@@ -18,14 +18,14 @@ const App = () => {
     setSelected(randomIndex);
   };
 
+  
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
   const voteForAnecdote = () => {
     const copy = [...votes];
     copy[selected] += 1;
     setVotes(copy);
-    console.log(Math.max(...votes));
+    //console.log(Math.max(...votes));
   };
-
 
   return (
     <div>
@@ -39,6 +39,5 @@ const App = () => {
     </div>
   );
 }
-
 
 export default App
