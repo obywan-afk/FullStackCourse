@@ -4,10 +4,12 @@ const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 
+
+
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let blogObject = new Blog({ title: 'Sample Blog', author: 'John Doe', url: 'http://example.com', likes: 5 })
-  await blogObject.save()
+  const blog = new Blog({ title: 'Test Blog', author: 'Test Author', url: 'http://example.com', likes: 1 })
+  await blog.save()
 })
 
 test('blogs are returned as json', async () => {
@@ -17,12 +19,24 @@ test('blogs are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
+afterAll(() => {
+  mongoose.connection.close()
+})
+
+test('blog has id property', async () => {
+  const response = await api.get('/api/blogs')
+  const blogs = response.body
+  expect(blogs[0].id).toBeDefined()
+})
+
+
+
 test('a valid blog can be added', async () => {
   const newBlog = {
-    title: 'Another Blog',
+    title: 'New Blog',
     author: 'Jane Doe',
-    url: 'http://example2.com',
-    likes: 7
+    url: 'http://example.com/new',
+    likes: 10
   }
 
   await api
@@ -31,8 +45,23 @@ test('a valid blog can be added', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-  const blogsAtEnd = await Blog.find({})
-  expect(blogsAtEnd).toHaveLength(2)
+  const response = await api.get('/api/blogs')
+  const titles = response.body.map(blog => blog.title)
+
+  expect(titles).toContain('New Blog')
+})
+
+test('if likes property is missing, it defaults to 0', async () => {
+  const newBlog = {
+    title: 'Blog Without Likes',
+    author: 'Jane Doe',
+    url: 'http://example.com/no-likes'
+  }
+
+  const response = await api.post('/api/blogs').send(newBlog).expect(201)
+
+  const savedBlog = await Blog.findById(response.body.id)
+  expect(savedBlog.likes).toBe(0)
 })
 
 test('a blog can be deleted', async () => {
@@ -81,7 +110,11 @@ test('blog without title or url cannot be added', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+
+const response = await api.get('/api/blogs')
+expect(response.body).toHaveLength(1)  // Assuming 1 blog in the database initially
 })
+
 
 afterAll(() => {
   mongoose.connection.close()
