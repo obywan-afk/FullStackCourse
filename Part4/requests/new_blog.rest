@@ -8,9 +8,10 @@ Content-Type: application/json
 #   "likes": 12
 # },
 {
-  "title": " Blog",
-  "author": " Doe",
-  "url": "http://exkkample.com",
-  "likes": 132
+  "title": "New Blog",
+  "author": "johndoe",
+  "name": "John Doe",
+  "url": "http://example.com",
+  "password": "supersecret"
 }
 
