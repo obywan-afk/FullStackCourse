@@ -1,0 +1,13 @@
+
+GET http://localhost:3001/api/blogs
+
+
+# POST http://localhost:3001/api/persons
+# Content-Type: application/json
+
+# {
+#   "name": "Sterre Rarentsen",
+#   "number": "123-456789"
+# }
+
+
