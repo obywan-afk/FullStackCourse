@@ -3,6 +3,9 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const config = require('../utils/config')
+const express = require('express');
+const middleware = require('../utils/middleware')
+
 
 
 blogsRouter.get('/', async (request, response) => {
@@ -39,26 +42,53 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 
-
 blogsRouter.delete('/:id', async (request, response, next) => {
-  const user = request.user 
+  const user = request.user;
+
   try {
-    const blog = await Blog.findById(request.params.id)
+    console.log('Trying to delete blog with ID:', request.params.id);
+
+    const blog = await Blog.findById(request.params.id);
+    console.log('Blog found:', blog);
+
 
     if (!blog) {
-      return response.status(404).json({ error: 'blog not found' })
+      console.log('Blog not found');
+
+      return response.status(404).json({ error: 'blog not found' });
+    }
+    console.log('Blog user ID:', blog.user.toString());
+    console.log('Authenticated user ID:', user._id.toString());
+
+    if (blog.user.toString() !== user._id.toString()) {
+      console.log('Unauthorized deletion attempt');
+
+      return response.status(401).json({ error: 'unauthorized user' });
     }
 
-    if (blog.user.toString() !== user._id.toString()) { 
-      return response.status(401).json({ error: 'unauthorized user' })
-    }
+    await Blog.findByIdAndDelete(request.params.id);
+    console.log('Blog successfully deleted');
 
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
+    response.status(204).end();
   } catch (error) {
-    next(error)
+    console.log('Error in delete operation:', error.message);
+
+    next(error);
   }
-})
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 blogsRouter.put('/:id', async (request, response, next) => {
   const { title, author, url, likes } = request.body
 

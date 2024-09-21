@@ -17,6 +17,12 @@ describe('User API tests', () => {
     await user.save()
   })
 
+
+
+
+
+
+
   test('creation succeeds with a fresh username', async () => {
     const usersAtStart = await User.find({})
 
@@ -60,26 +66,30 @@ describe('User API tests', () => {
     expect(usersAtEnd).toHaveLength(usersAtStart.length) // No new user added
   })
 
-  test('creation fails with proper statuscode and message if username already taken', async () => {
-    const usersAtStart = await User.find({})
 
+
+  test('creation fails with proper statuscode and message if username already taken', async () => {
+    const usersAtStart = await User.find({});
+  
     const newUser = {
       username: 'root', // Already taken
       name: 'Duplicate User',
       password: 'password123',
-    }
-
+    };
+  
     const result = await api
       .post('/api/users')
       .send(newUser)
       .expect(400)
-      .expect('Content-Type', /application\/json/)
+      .expect('Content-Type', /application\/json/);
+  
+    expect(result.body.error).toContain('Username must be unique');
+  
+    const usersAtEnd = await User.find({});
+    expect(usersAtEnd).toHaveLength(usersAtStart.length); // No new user added
+  });
+  
 
-    expect(result.body.error).toContain('expected `username` to be unique')
-
-    const usersAtEnd = await User.find({})
-    expect(usersAtEnd).toHaveLength(usersAtStart.length) // No new user added
-  })
 
   test('creation fails if password is too short', async () => {
     const usersAtStart = await User.find({})
